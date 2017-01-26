@@ -46,6 +46,12 @@ AC_ARG_WITH(imagetype,
 AC_SUBST(DISTRO_TYPE)
 AC_DEFINE_UNQUOTED(DISTRO_TYPE,"$DISTRO_TYPE",[imagetype name])
 
+AC_ARG_WITH(arch,
+	[  --with-arch=NAME arch name [[mipsel32,sh4...]]],
+	[ARCH_TYPE="$withval"],[ARCH_TYPE="mipsel32"])
+AC_SUBST(ARCH_TYPE)
+AC_DEFINE_UNQUOTED(ARCH_TYPE,"$ARCH_TYPE",[arch name])
+
 AC_ARG_WITH(machinebrand,
 	[  --with-machinebrand=NAME brand name [[Vu,Xtrend,...]]],
 	[MACHINE_BRAND="$withval"],[MACHINE_BRAND="Vu+"])
@@ -87,6 +93,18 @@ AC_ARG_WITH(imagebuild,
 	[IMAGEBUILD="$withval"],[IMAGEBUILD=""])
 AC_SUBST(IMAGEBUILD)
 AC_DEFINE_UNQUOTED(IMAGEBUILD,"$IMAGEBUILD",[build number])
+
+AC_ARG_WITH(imagedevbuild,
+	[  --with-imagedevbuild=NAME dev build number [[628]]],
+	[IMAGEDEVBUILD="$withval"],[IMAGEDEVBUILD=""])
+AC_SUBST(IMAGEDEVBUILD)
+AC_DEFINE_UNQUOTED(IMAGEDEVBUILD,"$IMAGEDEVBUILD",[build number])
+
+AC_ARG_WITH(feedsurl,
+	[  --with-feedsurl=NAME feeds url  [[628]]],
+	[FEEDSURL="$withval"],[FEEDSURL=""])
+AC_SUBST(FEEDSURL)
+AC_DEFINE_UNQUOTED(FEEDSURL,"$FEEDSURL",[feeds url ])
 
 AC_ARG_WITH(imagedir,
 	[  --with-imagedir=NAME imagedir folder [[628]]],
@@ -185,6 +203,7 @@ AM_CONDITIONAL(XP, test `echo "$BRAND_OEM"` == "xp")
 AM_CONDITIONAL(SKYLAKE, test `echo "$BRAND_OEM"` == "skylake")
 AM_CONDITIONAL(FORMULER, test `echo "$BRAND_OEM"` == "formuler")
 AM_CONDITIONAL(TRIPLEDOT, test `echo "$BRAND_OEM"` == "tripledot")
+AM_CONDITIONAL(HARDKERNEL, test `echo "$BRAND_OEM"` == "hardkernel")
 AM_CONDITIONAL(WETEK, test `echo "$BRAND_OEM"` == "wetek")
 AM_CONDITIONAL(FULAN, test `echo "$BRAND_OEM"` == "fulan")
 AM_CONDITIONAL(XCORE, test `echo "$BRAND_OEM"` == "xcore")
@@ -204,8 +223,19 @@ AM_CONDITIONAL(MEDIAART, test `echo "$BOXTYPE" | cut -b 1-4` == "mart")
 AM_CONDITIONAL(NANO, test `echo "$BOXTYPE" | cut -b 1-4` == "nano")
 AM_CONDITIONAL(FORCE, test `echo "$BOXTYPE" | cut -b 1-5` == "force")
 AM_CONDITIONAL(WORLDVISION, test `echo "$BOXTYPE" | cut -b 1-11` == "worldvision")
-AM_CONDITIONAL(S7000, test `echo "$MACHINE_BUILD"` == "7000s2")
+AM_CONDITIONAL(FUSIONHD, test `echo "$BOXTYPE" | cut -b 1-8` == "fusionhd")
+AM_CONDITIONAL(REVO4K, test `echo "$BOXTYPE" | cut -b 1-8` == "revo4k")
+AM_CONDITIONAL(AX51, test "$BOXTYPE" == ax51)
+AM_CONDITIONAL(BCM7251S, test "$BOXTYPE" == bcm7251s)
+AM_CONDITIONAL(S7000, test `echo "$MACHINE_BUILD"` == "7000s")
 AM_CONDITIONAL(S7100, test `echo "$MACHINE_BUILD"` == "7100s")
+AM_CONDITIONAL(S7105, test `echo "$MACHINE_BUILD"` == "7105s")
+AM_CONDITIONAL(S7210, test `echo "$MACHINE_BUILD"` == "7210s")
+AM_CONDITIONAL(S7215, test `echo "$MACHINE_BUILD"` == "7215s")
+AM_CONDITIONAL(S7220, test `echo "$MACHINE_BUILD"` == "7220s")
+AM_CONDITIONAL(S7225, test `echo "$MACHINE_BUILD"` == "7225s")
+AM_CONDITIONAL(S7300, test `echo "$MACHINE_BUILD"` == "7300s")
+AM_CONDITIONAL(S7400, test `echo "$MACHINE_BUILD"` == "7400s")
 AM_CONDITIONAL(SOGNO, test `echo "$BOXTYPE"` == "sogno8800hd")
 AM_CONDITIONAL(UNIBOXHDE, test "$BOXTYPE" == uniboxhde)
 AM_CONDITIONAL(AXODIN, test "$MACHINE_BUILD" == axodin)
@@ -222,28 +252,40 @@ AM_CONDITIONAL(DM800SEV2, test "$BOXTYPE" == dm800sev2)
 AM_CONDITIONAL(DM820, test "$BOXTYPE" == dm820)
 AM_CONDITIONAL(DM500HD, test "$BOXTYPE" == dm500hd)
 AM_CONDITIONAL(DM500HDV2, test "$BOXTYPE" == dm500hdv2)
+AM_CONDITIONAL(DM520, test "$BOXTYPE" == dm520)
 AM_CONDITIONAL(E3HD, test "$BOXTYPE" == e3hd)
+AM_CONDITIONAL(E4HD, test `echo "$BOXTYPE" | cut -b 1-4` == "e4hd")
 AM_CONDITIONAL(ET4X00, test "$BOXTYPE" == et4x00)
 AM_CONDITIONAL(ET5X00, test "$BOXTYPE" == et5x00)
 AM_CONDITIONAL(ET6X00, test "$BOXTYPE" == et6x00)
 AM_CONDITIONAL(ET7X00, test "$BOXTYPE" == et7x00)
+AM_CONDITIONAL(ET7X00MINI, test "$BOXTYPE" == et7x00mini)
 AM_CONDITIONAL(ET9X00, test "$BOXTYPE" == et9x00)
 AM_CONDITIONAL(ET8000, test "$BOXTYPE" == et8000)
 AM_CONDITIONAL(ET8500, test "$BOXTYPE" == et8500)
 AM_CONDITIONAL(ET10000, test "$BOXTYPE" == et10000)
 AM_CONDITIONAL(ENFINITY, test "$BOXTYPE" == enfinity)
+AM_CONDITIONAL(EVOMINI, test "$BOXTYPE" == evomini)
+AM_CONDITIONAL(EVOMINIPLUS, test "$BOXTYPE" == evominiplus)
+AM_CONDITIONAL(EVOSLIM, test "$BOXTYPE" == evoslim)
 AM_CONDITIONAL(X1PLUS, test "$BOXTYPE" == x1plus)
 AM_CONDITIONAL(X2PLUS, test "$BOXTYPE" == x2plus)
 AM_CONDITIONAL(XCOMBO, test "$BOXTYPE" == xcombo)
 AM_CONDITIONAL(BRE2ZE, test "$BOXTYPE" == bre2ze)
+AM_CONDITIONAL(BRE2ZET2C, test "$BOXTYPE" == bre2zet2c)
+AM_CONDITIONAL(BRE2ZE4K, test "$BOXTYPE" == bre2ze4k)
 AM_CONDITIONAL(TRIPLEX, test "$BOXTYPE" == triplex)
+AM_CONDITIONAL(TIVIARMIN, test "$BOXTYPE" == tiviarmin)
 AM_CONDITIONAL(FORMULER1, test "$BOXTYPE" == formuler1)
 AM_CONDITIONAL(FORMULER3, test "$BOXTYPE" == formuler3)
 AM_CONDITIONAL(GBIPBOX, test "$BOXTYPE" == gbipbox)
 AM_CONDITIONAL(GBX1, test "$BOXTYPE" == gbx1)
+AM_CONDITIONAL(GBX2, test "$BOXTYPE" == gbx2)
 AM_CONDITIONAL(GBX3, test "$BOXTYPE" == gbx3)
+AM_CONDITIONAL(GBX3H, test "$BOXTYPE" == gbx3h)
 AM_CONDITIONAL(GBULTRASE, test "$BOXTYPE" == gbultrase)
 AM_CONDITIONAL(GBULTRAUE, test "$BOXTYPE" == gbultraue)
+AM_CONDITIONAL(GBULTRAUEH, test "$BOXTYPE" == gbultraueh)
 AM_CONDITIONAL(GB800SOLO, test "$BOXTYPE" == gb800solo)
 AM_CONDITIONAL(GB800SE, test "$BOXTYPE" == gb800se)
 AM_CONDITIONAL(GB800UE, test "$BOXTYPE" == gb800ue)
@@ -251,6 +293,7 @@ AM_CONDITIONAL(GB800SEPLUS, test "$BOXTYPE" == gb800seplus)
 AM_CONDITIONAL(GB800UEPLUS, test "$BOXTYPE" == gb800ueplus)
 AM_CONDITIONAL(GBQUADPLUS, test "$BOXTYPE" == gbquadplus)
 AM_CONDITIONAL(GBQUAD, test "$BOXTYPE" == gbquad)
+AM_CONDITIONAL(GBUHDQUAD, test "$BOXTYPE" == gbuhdquad)
 AM_CONDITIONAL(INIHDX, test "$MACHINE_BUILD" == inihdx)
 AM_CONDITIONAL(INIHDE, test "$MACHINE_BUILD" == inihde)
 AM_CONDITIONAL(INIHDE2, test "$MACHINE_BUILD" == inihde2)
@@ -264,18 +307,33 @@ AM_CONDITIONAL(IXUSSDUO, test "$BOXTYPE" == ixussduo)
 AM_CONDITIONAL(MEDIABOX, test "$BOXTYPE" == mediabox)
 AM_CONDITIONAL(MBTWIN, test "$BOXTYPE" == mbtwin)
 AM_CONDITIONAL(HD2400, test "$MACHINE_BUILD" == hd2400)
+AM_CONDITIONAL(HD1500, test "$MACHINE_BUILD" == hd1500)
 AM_CONDITIONAL(HD1200, test "$MACHINE_BUILD" == hd1200)
+AM_CONDITIONAL(HD1265, test "$MACHINE_BUILD" == hd1265)
 AM_CONDITIONAL(HD1100, test "$MACHINE_BUILD" == hd1100)
+AM_CONDITIONAL(HD11, test "$MACHINE_BUILD" == hd11)
 AM_CONDITIONAL(HD500C, test "$MACHINE_BUILD" == hd500c)
+AM_CONDITIONAL(HD530C, test "$MACHINE_BUILD" == hd530c)
+AM_CONDITIONAL(MUTANT51, test "$BOXTYPE" == mutant51)
 AM_CONDITIONAL(ODINM6, test "$BOXTYPE" == odinm6)
 AM_CONDITIONAL(ODINM7, test "$MACHINE_BUILD" == odinm7)
 AM_CONDITIONAL(ODINM9, test "$MACHINE_BUILD" == odinm9)
 AM_CONDITIONAL(OPTIMUSSOS1, test "$BOXTYPE" == optimussos1)
 AM_CONDITIONAL(OPTIMUSSOS2, test "$BOXTYPE" == optimussos2)
+AM_CONDITIONAL(PROTEK9900LX, test "$BOXTYPE" == 9900lx)
+AM_CONDITIONAL(PUREHD, test "$BOXTYPE" == purehd)
+AM_CONDITIONAL(SF98, test "$BOXTYPE" == sf98)
 AM_CONDITIONAL(SF108, test "$BOXTYPE" == sf108)
+AM_CONDITIONAL(SF128, test "$BOXTYPE" == sf128)
+AM_CONDITIONAL(SF138, test "$BOXTYPE" == sf138)
 AM_CONDITIONAL(SF3038, test "$BOXTYPE" == sf3038)
+<<<<<<< HEAD
 AM_CONDITIONAL(MIRACLEBOX, test "$BOXTYPE" == mbpremiumplus)
+=======
+AM_CONDITIONAL(SF4008, test "$BOXTYPE" == sf4008)
+>>>>>>> 1e7d115e9f7dfd5e911b7a65283d840f88d63fc6
 AM_CONDITIONAL(SOGNO8800HD, test "$BOXTYPE" == sogno8800hd)
+AM_CONDITIONAL(T2CABLE, test "$BOXTYPE" == t2cable)
 AM_CONDITIONAL(TMTWINOE, test "$BOXTYPE" == tmtwin)
 AM_CONDITIONAL(TM2TOE, test "$BOXTYPE" == tm2t)
 AM_CONDITIONAL(TMSINGLE, test "$BOXTYPE" == tmsingle)
@@ -284,7 +342,13 @@ AM_CONDITIONAL(TMNANO2T, test "$BOXTYPE" == tmnano2t)
 AM_CONDITIONAL(TMNANO3T, test "$BOXTYPE" == tmnano3t)
 AM_CONDITIONAL(TMNANO2SUPER, test "$BOXTYPE" == tmnano2super)
 AM_CONDITIONAL(TMNANOSE, test "$BOXTYPE" == tmnanose)
+AM_CONDITIONAL(TMNANOSEPLUS, test "$BOXTYPE" == tmnanoseplus)
+AM_CONDITIONAL(TMNANOSEM2, test "$BOXTYPE" == tmnanosem2)
+AM_CONDITIONAL(TMNANOSEM2PLUS, test "$BOXTYPE" == tmnanosem2plus)
 AM_CONDITIONAL(TMNANOSECOMBO, test "$BOXTYPE" == tmnanosecombo)
+AM_CONDITIONAL(ULTRABOX, test "$BOXTYPE" == ultrabox)
+AM_CONDITIONAL(VS1000, test "$MACHINE_BUILD" == vs1000)
+AM_CONDITIONAL(VS1500, test "$MACHINE_BUILD" == vs1500)
 AM_CONDITIONAL(VUUNO, test "$BOXTYPE" == vuuno)
 AM_CONDITIONAL(VUULTIMO, test "$BOXTYPE" == vuultimo)
 AM_CONDITIONAL(VUSOLO, test "$BOXTYPE" == vusolo)
@@ -293,6 +357,9 @@ AM_CONDITIONAL(VUDUO, test "$BOXTYPE" == vuduo)
 AM_CONDITIONAL(VUSOLO2, test "$BOXTYPE" == vusolo2)
 AM_CONDITIONAL(VUDUO2, test "$BOXTYPE" == vuduo2)
 AM_CONDITIONAL(VUZERO, test "$BOXTYPE" == vuzero)
+AM_CONDITIONAL(VUSOLO4K, test "$BOXTYPE" == vusolo4k)
+AM_CONDITIONAL(VUUNO4K, test "$BOXTYPE" == vuuno4k)
+AM_CONDITIONAL(VUULTIMO4K, test "$BOXTYPE" == vuultimo4k)
 AM_CONDITIONAL(VENTONHDX, test "$BOXTYPE" == ventonhdx)
 AM_CONDITIONAL(XP1000, test "$MACHINE_BUILD" == xp1000)
 AM_CONDITIONAL(XP1000MAX, test "$BOXTYPE" == xp1000max)
@@ -305,6 +372,8 @@ Makefile
 BoxBranding/Makefile
 BoxBranding/lib/Makefile
 BoxBranding/remotes/Makefile
+BoxBranding/remotes/ax1/Makefile
+BoxBranding/remotes/ax2/Makefile
 BoxBranding/remotes/azboxhd/Makefile
 BoxBranding/remotes/azboxme/Makefile
 BoxBranding/remotes/azboxelite/Makefile
@@ -313,14 +382,22 @@ BoxBranding/remotes/dmm0/Makefile
 BoxBranding/remotes/dmm1/Makefile
 BoxBranding/remotes/dmm2/Makefile
 BoxBranding/remotes/e3hd/Makefile
+BoxBranding/remotes/e4hd/Makefile
+BoxBranding/remotes/e4hdcombo/Makefile
 BoxBranding/remotes/ebox5000/Makefile
 BoxBranding/remotes/evo1/Makefile
 BoxBranding/remotes/evo2/Makefile
 BoxBranding/remotes/evo3/Makefile
+BoxBranding/remotes/evo4/Makefile
+BoxBranding/remotes/evo5/Makefile
+BoxBranding/remotes/evo6/Makefile
+BoxBranding/remotes/evo7/Makefile
+BoxBranding/remotes/evo8/Makefile
 BoxBranding/remotes/et4x00/Makefile
 BoxBranding/remotes/et6x00/Makefile
 BoxBranding/remotes/et6500/Makefile
 BoxBranding/remotes/et7x00/Makefile
+BoxBranding/remotes/et7x00mini/Makefile
 BoxBranding/remotes/et8000/Makefile
 BoxBranding/remotes/et9500/Makefile
 BoxBranding/remotes/et9x00/Makefile
@@ -329,6 +406,8 @@ BoxBranding/remotes/fulan/Makefile
 BoxBranding/remotes/g300/Makefile
 BoxBranding/remotes/gb0/Makefile
 BoxBranding/remotes/gb1/Makefile
+BoxBranding/remotes/gb2/Makefile
+BoxBranding/remotes/gi1/Makefile
 BoxBranding/remotes/hd1100/Makefile
 BoxBranding/remotes/hd2400/Makefile
 BoxBranding/remotes/ini0/Makefile
@@ -338,44 +417,60 @@ BoxBranding/remotes/ini3/Makefile
 BoxBranding/remotes/ini4/Makefile
 BoxBranding/remotes/ini5/Makefile
 BoxBranding/remotes/ini6/Makefile
+BoxBranding/remotes/ini7/Makefile
+BoxBranding/remotes/ini8/Makefile
 BoxBranding/remotes/iqon1/Makefile
 BoxBranding/remotes/iqon2/Makefile
+BoxBranding/remotes/iqon3/Makefile
 BoxBranding/remotes/hdbox/Makefile
 BoxBranding/remotes/ixussone/Makefile
 BoxBranding/remotes/ixusszero/Makefile
+BoxBranding/remotes/miraclebox/Makefile
 BoxBranding/remotes/megasat1/Makefile
 BoxBranding/remotes/megasat2/Makefile
 BoxBranding/remotes/mediabox/Makefile
 BoxBranding/remotes/red1/Makefile
+BoxBranding/remotes/red2/Makefile
 BoxBranding/remotes/odinm6/Makefile
 BoxBranding/remotes/odinm7/Makefile
 BoxBranding/remotes/odinm9/Makefile
 BoxBranding/remotes/optimuss1/Makefile
 BoxBranding/remotes/optimuss2/Makefile
 BoxBranding/remotes/relook/Makefile
+BoxBranding/remotes/protek1/Makefile
+BoxBranding/remotes/protek2/Makefile
+BoxBranding/remotes/sf98/Makefile
 BoxBranding/remotes/sf108/Makefile
+BoxBranding/remotes/sf2x8/Makefile
 BoxBranding/remotes/sf3038/Makefile
 BoxBranding/remotes/sogno/Makefile
 BoxBranding/remotes/triplex/Makefile
+BoxBranding/remotes/tiviar/Makefile
 BoxBranding/remotes/tyrant/Makefile
 BoxBranding/remotes/uniboxhde/Makefile
 BoxBranding/remotes/tm1/Makefile
 BoxBranding/remotes/tm2/Makefile
 BoxBranding/remotes/tm3/Makefile
+BoxBranding/remotes/tm4/Makefile
 BoxBranding/remotes/visionnet/Makefile
 BoxBranding/remotes/vu/Makefile
 BoxBranding/remotes/vu2/Makefile
 BoxBranding/remotes/vu3/Makefile
 BoxBranding/remotes/wetek/Makefile
+BoxBranding/remotes/wetek2/Makefile
+BoxBranding/remotes/wetek3/Makefile
 BoxBranding/remotes/wwio1/Makefile
-BoxBranding/remotes/wwio2/Makefile
 BoxBranding/remotes/xcore1/Makefile
 BoxBranding/remotes/xcore2/Makefile
 BoxBranding/remotes/xcore3/Makefile
 BoxBranding/remotes/xp1000/Makefile
+BoxBranding/remotes/fusionhd/Makefile
 BoxBranding/remotes/zgemma1/Makefile
 BoxBranding/remotes/zgemma2/Makefile
-
+BoxBranding/remotes/zgemma3/Makefile
+BoxBranding/remotes/zgemma4/Makefile
+BoxBranding/remotes/zgemma5/Makefile
+BoxBranding/remotes/hardkernel/Makefile
 
 ])
 AC_OUTPUT
